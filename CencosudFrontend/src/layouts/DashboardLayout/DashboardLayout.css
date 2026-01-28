@@ -1,0 +1,71 @@
+/* Dashboard layout styles (topbar + shell) */
+
+.dashboard-shell {
+  min-height: 100vh;
+  background: #e5e7eb;
+}
+
+.cenco-topbar {
+  margin: 0 auto;
+  background: linear-gradient(90deg, #ff7b3a, #83132d);
+  padding: 0.35rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(148, 27, 57, 0.4);
+}
+
+.cenco-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.cenco-logo-text {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.cenco-user-info {
+  font-size: 0.7rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.cenco-user-name {
+  font-weight: 700;
+}
+
+.cenco-user-role {
+  opacity: 0.9;
+}
+
+.cenco-logout-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(120deg, #741631, #5f0922);
+  box-shadow: 0 8px 18px rgba(127, 29, 29, 0.45);
+}
+
+.cenco-logo-text {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;          /* 👈 para que se note que es clickeable */
+}
+
+.cenco-topbar-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1050;              /* por encima de las cards */
+  padding-bottom: 0.5rem;   /* espacio arriba y abajo */
+  background-color: #f3f4f6;  /* mismo fondo que el resto */
+}
+
+.dashboard-main {
+  padding-bottom: 1.5rem;
+}

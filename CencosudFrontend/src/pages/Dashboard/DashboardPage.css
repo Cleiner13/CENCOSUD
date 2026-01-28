@@ -1,0 +1,310 @@
+/* src/pages/Dashboard/DashboardPage.css */
+
+.dashboard-page {
+  min-height: 100vh;
+  padding: 14px 12px 24px;
+}
+
+/* ancho tipo mobile, centrado */
+.dashboard-hero,
+.dashboard-quick {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ===== Panel oscuro ===== */
+.dashboard-hero {
+  background: radial-gradient(circle at top, #111827 0%, #020617 58%);
+  border-radius: 18px;
+  padding: 16px;
+  color: #e5e7eb;
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.25);
+}
+
+.dashboard-hello {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.dashboard-hello span {
+  font-weight: 700;
+}
+
+.dashboard-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #f9fafb;
+}
+
+.dashboard-subtitle {
+  margin: 2px 0 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== Caja del gráfico (independiente) ===== */
+.dashboard-chart-box {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 16px;
+  padding: 14px 12px 10px;
+}
+
+.dashboard-chart-wrap {
+  position: relative;
+  height: 260px;
+}
+
+.dashboard-chart-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.dashboard-total-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.dashboard-total-value {
+  font-size: 30px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+/* mini leyenda en una fila */
+.dashboard-mini-legend {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  padding-bottom: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+/* lista tipo "SUP.1 120" dentro del panel */
+.dashboard-kpi-list {
+  margin-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  padding-top: 10px;
+}
+
+.dashboard-kpi-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 2px;
+}
+
+.dashboard-kpi-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-kpi-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.dashboard-kpi-name {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.dashboard-kpi-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* ===== Accesos rápidos ===== */
+.dashboard-quick {
+  margin-top: 14px;
+  background: rgba(4, 0, 255, 0.08);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.quick-title {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.quick-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.quick-card {
+  background: #f1eade;
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 10px 22px rgba(2, 6, 23, 0.10);
+}
+
+.quick-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 18px;
+  flex: 0 0 auto;
+}
+
+.quick-body {
+  flex: 1;
+}
+
+.quick-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.quick-card-text {
+  font-size: 12px;
+  color: rgba(31, 41, 55, 0.75);
+  margin-bottom: 10px;
+}
+
+/* botón naranja tipo Cencosud */
+.quick-btn {
+  display: inline-block;
+  background: linear-gradient(90deg, #ff7b3a, #83132d);
+  color: #fff;
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+
+.quick-btn:hover {
+  filter: brightness(0.95);
+}
+
+/* opcional: evitar que el tooltip herede estilos raros */
+.recharts-default-tooltip {
+  outline: none;
+}
+
+
+.dashboard-metas-title{
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  opacity: .9;
+}
+
+.dashboard-meta-row{
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  opacity: .95;
+}
+
+.dashboard-meta-hint{
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: .85;
+}
+
+.dashboard-meta-success{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(107, 203, 119, 0.10);
+}
+
+.dashboard-meta-btn{
+  margin-top: 8px;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #ff7a2f;
+  color: #fff;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.dashboard-monthbar{
+  display:flex;
+  gap:10px;
+  align-items:flex-end;
+  justify-content:flex-start;
+  margin: 10px 0 12px;
+}
+
+.dashboard-monthfield{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.dashboard-monthfield label{
+  font-size:12px;
+  color: rgba(255,255,255,.78);
+}
+
+.dashboard-monthinput{
+  height:34px;
+  padding: 0 10px;
+  border-radius:10px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.92);
+  outline:none;
+}
+
+.dashboard-monthbtn{
+  height:34px;
+  padding: 0 14px;
+  border-radius:10px;
+  border: none;
+  background: #1f0997;
+  color:#e3e5e9;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.form-control-sm {
+    background: #f1eade!important;
+}

@@ -1,0 +1,6 @@
+@CencosudBackend_HostAddress = http://localhost:5152
+
+GET {{CencosudBackend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

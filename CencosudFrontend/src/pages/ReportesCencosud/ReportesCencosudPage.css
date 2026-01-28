@@ -1,0 +1,303 @@
+/* ====== Lienzo general tipo “pantalla mobile” ====== */
+.rep-page {
+  min-height: 100vh;
+}
+
+.rep-shell {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.rep-panel {
+  background: #4a4d4f; /* gris oscuro como tu imagen */
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 18px 40px rgba(2, 6, 23, 0.18);
+}
+
+/* ====== Header ====== */
+.rep-header {
+  padding: 6px 4px 12px;
+}
+
+.rep-title {
+  margin: 0;
+  font-size: 20px;
+  color: rgba(255, 255, 255); /* en tu captura se ve oscuro sobre el panel */
+}
+
+.rep-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.35;
+color: rgba(255, 255, 255); 
+}
+
+.rep-alert {
+  background: #ffd7d7;
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  color: #7f1d1d;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin: 0 4px 12px;
+  font-size: 13px;
+}
+
+/* ====== Cards blancas ====== */
+.rep-card {
+  background: #ffffff;
+  border-radius: 14px;
+  margin: 12px 4px;
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.rep-card-body {
+  padding: 14px;
+}
+
+.rep-card-title {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+/* ====== Inputs y labels ====== */
+.rep-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+
+.rep-input,
+.rep-select {
+  width: 100%;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0 10px;
+  font-size: 13px;
+  outline: none;
+  background: #fff;
+}
+
+.rep-input:focus,
+.rep-select:focus {
+  border-color: rgba(37, 99, 235, 0.55);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.rep-date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 10px;
+}
+
+/* ====== Botones ====== */
+.rep-btn {
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.rep-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.rep-btn-primary {
+  background: #0b5ed7;
+  color: #fff;
+}
+
+.rep-btn-success {
+  background: #198754;
+  color: #fff;
+}
+
+/* ====== Resumen: 3 mini cards oscuras ====== */
+.rep-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.rep-summary-box {
+  background: #111827;
+  border-radius: 12px;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rep-summary-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255);
+  margin-bottom: 2px;
+}
+
+.rep-summary-value {
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+}
+
+/* ====== Encabezado del listado + botón excel ====== */
+.rep-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* ====== Filtros del listado ====== */
+.rep-filters {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  margin: 10px 0 12px;
+  flex-wrap: nowrap;   /* en mobile se mantiene en una fila */
+}
+
+.rep-field {
+  flex: 1 1 0;
+  min-width: 0;        /* CLAVE: evita que se desborde */
+}
+
+.rep-field-small {
+  flex: 0 0 90px;      /* ancho fijo para "Registros" */
+  min-width: 90px;
+}
+/* ====== Tabla ====== */
+.rep-table-wrap {
+  width: 100%;
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.rep-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px; /* fuerza scroll horizontal en mobile como en tu captura */
+  background: #fff;
+}
+
+.rep-table thead th {
+  text-align: center;
+  font-size: 13px;
+  color: #111827;
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fafafa;
+  white-space: nowrap;
+}
+
+.rep-table tbody td {
+  padding: 10px 10px;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  white-space: nowrap;
+}
+
+.rep-th-actions {
+  width: 150px;
+}
+
+.rep-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Botones mini para acciones */
+.rep-btn-mini {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 10px;
+  border: 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.rep-btn-warn {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.rep-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ====== Paginación ====== */
+.rep-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.rep-pager {
+  display: flex;
+}
+
+.rep-pager-btn {
+  padding: 0 12px;
+  border: 1px solid rgba(0, 0, 0, 0.38);
+  background: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  color: #0b5ed7;
+}
+
+.rep-pager-btn:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.rep-pager-btn:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.rep-pager-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ====== Textos auxiliares ====== */
+.rep-muted {
+  margin: 10px 0 0;
+  color: rgba(17, 24, 39, 0.55);
+  font-size: 13px;
+}
+
+.rep-muted-small {
+  font-size: 12px;
+}
+
+/* Responsive: si el ancho es muy pequeño */
+@media (max-width: 360px) {
+  .rep-filters {
+    flex-wrap: wrap;      /* recién aquí baja a 1 columna */
+  }
+
+  .rep-field,
+  .rep-field-small {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
+  .rep-summary-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

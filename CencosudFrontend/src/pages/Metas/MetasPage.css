@@ -1,0 +1,193 @@
+/* src/pages/Metas/MetasPage.css */
+
+.metas-page {
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.metas-shell {
+  width: 100%;
+  max-width: 560px;
+}
+
+.metas-card {
+  background: rgba(10, 16, 28, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 14px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
+.metas-head {
+  padding: 6px 2px 12px;
+}
+
+.metas-title {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+
+.metas-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+/* ===== Toolbar compacto (como Reportes) ===== */
+.metas-toolbar {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.metas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metas-span-2 {
+  grid-column: span 2;
+}
+
+.metas-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metas-label {
+  font-size: 12px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.metas-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* Inputs oscuros */
+.metas-input.form-control {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  color: #000000;
+}
+
+.metas-input.form-control:focus {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: none;
+  color: #000000;
+}
+
+/* ===== Aplicar a todos ===== */
+.metas-bulk {
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 12px;
+}
+
+.metas-bulk-title {
+  font-size: 12px;
+  font-weight: 700;
+  opacity: 0.95;
+  margin-bottom: 10px;
+}
+
+.metas-bulk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.metas-bulk-btn {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+/* ===== Tabla ===== */
+.metas-table-wrap {
+  margin-top: 12px;
+  background: rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.metas-loading {
+  padding: 14px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.metas-table {
+  margin: 0;
+  font-size: 12.5px;
+}
+
+.metas-table thead th {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.metas-name {
+  font-weight: 700;
+}
+
+.col-meta {
+  width: 140px;
+}
+
+.col-accion {
+  width: 90px;
+}
+
+.metas-btn-save {
+  width: 100%;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 420px) {
+  .metas-shell {
+    max-width: 100%;
+  }
+
+  .metas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metas-span-2 {
+    grid-column: span 1;
+  }
+
+  .metas-bulk-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metas-actions {
+    justify-content: stretch;
+  }
+
+  .metas-actions .btn {
+    flex: 1;
+  }
+
+  .col-meta {
+    width: 120px;
+  }
+}

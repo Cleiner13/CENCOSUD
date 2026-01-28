@@ -1,0 +1,15 @@
+# .NET (Backend)
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+
+# React / Node (Frontend)
+node_modules/
+dist/
+.env
+.DS_Store
+
+# Logs
+*.log
