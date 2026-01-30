@@ -274,8 +274,16 @@ namespace CencosudBackend.Repositories
                 Oferta = dr["Oferta"] as string,
                 Superavance = dr["Superavance"] as string,
                 CambioProducto = dr["CambioProducto"] as string,
-                IncrementoLinea = dr["IncrementoLinea"] as string
+                IncrementoLinea = dr["IncrementoLinea"] as string,
+                InfoAdicional = null
+
             };
+
+            // Deserializar JSON a diccionario
+            if (dr["JsonInfo"] is string jsonInfo && !string.IsNullOrWhiteSpace(jsonInfo))
+            {
+                dto.InfoAdicional = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonInfo);
+            }
 
             return dto;
         }

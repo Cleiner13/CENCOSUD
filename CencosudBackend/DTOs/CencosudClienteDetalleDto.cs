@@ -28,5 +28,8 @@ namespace CencosudBackend.DTOs
         public string? Superavance { get; set; }
         public string? CambioProducto { get; set; }
         public string? IncrementoLinea { get; set; }
+
+        // NUEVO: Diccionario para campos dinámicos guardados en InfoAdicional.
+        public Dictionary<string, string>? InfoAdicional { get; set; }
     }
 }

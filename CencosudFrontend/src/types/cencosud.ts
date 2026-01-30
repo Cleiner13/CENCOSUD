@@ -51,5 +51,7 @@ export interface CencosudClienteDetalle {
   superavance?: string | null;
   cambioProducto?: string | null;
   incrementoLinea?: string | null;
+  // Nuevo: campos dinámicos
+  infoAdicional?: Record<string, string>;
 }
 

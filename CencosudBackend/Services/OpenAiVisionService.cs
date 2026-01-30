@@ -55,8 +55,10 @@ namespace CencosudBackend.Services
                     {
                         role = "system",
                         content = "Eres un asistente que lee capturas de pantalla de la web Tarjeta Cencosud. " +
-                                  "Solo te interesa el cuadro 'RESUMEN'. Siempre responde SOLO con un JSON y nada más."
-                    },
+                                  "Solo te interesa la cabecera (Documento de identidad y Nombre Completo) y las tarjetas de productos. " +
+                                  "Siempre responde SOLO con un JSON y nada más."
+                    }
+                    ,
                     new
                     {
                         role = "user",
@@ -65,52 +67,47 @@ namespace CencosudBackend.Services
                             new
                             {
                                 type = "text",
-                                text =
-                            @"Extrae únicamente la información del cuadro RESUMEN de la tarjeta Cencosud.
+                                text = @"Extrae únicamente la información visible de la cabecera y de las tarjetas de productos en la pantalla de consulta de Tarjeta Cencosud.
 
-                            MAPEO ESTRICTO (muy importante):
+                                MAPEO ESTRICTO (muy importante):
 
-                            - El campo ""fecha"" viene de la fila cuyo título sea ""Fecha:"".
-                            - El campo ""tipo_doc"" viene de la fila ""Tipo Doc:"".
-                            - El campo ""doc"" viene de la fila ""Doc:"".
-                            - El campo ""nombre"" viene de la fila ""Nombre:"".
-                            - El campo ""tipo_de_tramite"" viene de la fila ""Tipo de Trámite:"".
-                            - El campo ""oferta"" viene de la fila ""Oferta:"".
-                            - El campo ""incremento_de_linea"" viene de la fila ""Incremento de Línea:"".
-                            - El campo ""superavance"" viene de una fila cuyo título contenga ""Superavance"".
-                            - El campo ""superavance_plus"" viene de una fila cuyo título contenga ""Superavance Plus"".
-                            - El campo ""avance_efectivo"" viene de la fila cuyo título contenga exactamente ""Avance Efectivo"".
-                            - El campo ""cambio_de_producto"" SOLO debe usarse si existe una fila cuyo título contenga ""Cambio de Producto"" o ""Cambio de Prod."".
+                                - El campo ""dni"" viene del texto después de ""Documento de identidad:"".
+                                - El campo ""nombre"" viene del texto después de ""Nombre Completo:"".
+                                - El campo ""tipo_tramite"" viene del título de la tarjeta ""Tarjeta de Crédito"": por ejemplo ""Preevaluado"", ""Regular"".
+                                - El campo ""oferta"" viene del monto mostrado debajo de esa misma tarjeta (ej. ""S/ 3,000.00"", sin duplicar).
+                                - El campo ""avance_efectivo"" viene del monto de la tarjeta ""Avance Efectivo"" (ej. ""S/ 124.00"").
+                                - El campo ""incremento_de_linea"" viene del monto de la tarjeta ""Incremento de Línea"" (ej. ""S/ 2,200.00"").
+                                - El campo ""adicionales"" viene del texto de la tarjeta ""Tarjeta de Crédito Adicionales"" (por ejemplo ""Hasta 3 TC"").
+                                - El campo ""efectivo_cencosud"" viene del monto de la tarjeta ""Efectivo Cencosud"" (ej. ""S/ 1,500.00"").
+                                - El campo ""ec_pct"" viene del valor de la línea ""Pct"" en la tarjeta ""Efectivo Cencosud"" (por ejemplo ""O45"").
+                                - El campo ""ec_tasa"" viene del valor de la línea ""Tasa"" en la tarjeta ""Efectivo Cencosud"" (ej. ""70.90%"").
+                                - El campo ""ae_pct"" viene del valor de la línea ""Pct"" en la tarjeta ""Avance Efectivo"" (por ejemplo ""O54"").
+                                - El campo ""ae_tasa"" viene del valor de la línea ""Tasa"" en la tarjeta ""Avance Efectivo"" (por ejemplo ""101.86%"").
+                                - Por ahora todas las demás tarjetas que aparezcan no las tomes en cuenta para nada.
 
-                            REGLAS IMPORTANTES:
+                                REGLAS IMPORTANTES:
+                                1) Si alguno de estos datos no aparece en la captura, pon ese campo en null.
+                                2) Nunca copies el mismo valor en dos campos distintos.
+                                3) No inventes valores ni intentes inferir información que no esté explícitamente en la captura.
 
-                            1) Si una fila NO aparece en la imagen (por ejemplo no existe ""Cambio de Producto""), pon ese campo en null.
-                            2) NUNCA copies el mismo valor en dos campos distintos.
-                               Ejemplo: si solo ves ""Avance Efectivo: DE-TASA"" y NO ves ""Cambio de Producto"",
-                               entonces:
-                               - ""avance_efectivo"": ""DE-TASA""
-                               - ""cambio_de_producto"": null
-                            3) No inventes valores ni infieras productos a partir de otros textos.
-                            3) No inventes valores ni infieras productos a partir de otros textos.
+                                Devuelve SIEMPRE un JSON EXACTAMENTE con esta estructura (usa null cuando no puedas leer un valor):
 
-                            Devuélvela SIEMPRE en este JSON (usa null cuando no puedas leer un valor, no inventes nada):
+                                {
+                                  ""dni"": string | null,
+                                  ""nombre"": string | null,
+                                  ""tipo_tramite"": string | null,
+                                  ""oferta"": string | null,
+                                  ""avance_efectivo"": string | null,
+                                  ""incremento_de_linea"": string | null,
+                                  ""adicionales"": string | null,
+                                  ""efectivo_cencosud"": string | null,
+                                  ""ec_pct"": string | null,
+                                  ""ec_tasa"": string | null,
+                                  ""ae_pct"": string | null,
+                                  ""ae_tasa"": string | null
+                                }
 
-                            {
-                              ""fecha"": string | null,
-                              ""tipo_doc"": string | null,
-                              ""doc"": string | null,
-                              ""nombre"": string | null,
-                              ""tipo_de_tramite"": string | null,
-                              ""oferta"": string | null,
-                              ""incremento_de_linea"": string | null,
-                              ""superavance"": string | null,
-                              ""superavance_plus"": string | null,
-                              ""avance_efectivo"": string | null,
-                              ""cambio_de_producto"": string | null
-                            }
-
-                            No escribas comentarios ni texto fuera del JSON."
-
+                                No escribas comentarios ni texto fuera del JSON."
                             },
                             new
                             {
@@ -121,6 +118,7 @@ namespace CencosudBackend.Services
                                 }
                             }
                         }
+
                     }
                 },
                 temperature = 0.0,
