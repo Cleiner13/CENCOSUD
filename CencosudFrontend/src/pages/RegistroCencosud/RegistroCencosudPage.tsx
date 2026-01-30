@@ -133,6 +133,8 @@ function RegistroCencosudPage() {
       if (campos.ec_tasa) dinamicos['EC Tasa'] = campos.ec_tasa;
       if (campos.ae_pct) dinamicos['AE Pct'] = campos.ae_pct;
       if (campos.ae_tasa) dinamicos['AE Tasa'] = campos.ae_tasa;
+      if (campos.hora_wapeo) dinamicos['HORA_WAPEO'] = campos.hora_wapeo;
+      
       setDynamicFields(dinamicos);
     } catch (err) {
       console.error(err);

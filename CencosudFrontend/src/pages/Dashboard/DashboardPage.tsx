@@ -1,5 +1,4 @@
 // src/pages/Dashboard/DashboardPage.tsx
-import { useMemo } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { Link } from "react-router-dom";
 import "./DashboardPage.css";
@@ -168,7 +167,7 @@ export default function DashboardPage() {
                           </div>
                         )}
 
-                        {(logroWapeos || logroVentas) && (
+                        {(logroVentas) && (
                           <div className="dashboard-meta-success">
                             <div><b>¡Lo lograste!</b> llegaste a la META.</div>
                             <div style={{ fontSize: 12, opacity: 0.85, marginTop: 4 }}>Obtener recompensa</div>
@@ -209,7 +208,7 @@ export default function DashboardPage() {
                           </div>
                         )}
 
-                        {(logroEquipoWapeos || logroEquipoVentas) && (
+                        {logroEquipoVentas && (
                           <div className="dashboard-meta-success">
                             <div><b>¡Meta lograda!</b> el equipo alcanzó la META.</div>
                           </div>

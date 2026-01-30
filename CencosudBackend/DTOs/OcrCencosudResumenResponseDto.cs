@@ -45,6 +45,9 @@ namespace CencosudBackend.DTOs
         // si decides usar alertas comerciales en el futuro
         [JsonPropertyName("alertas_comerciales")]
         public string? AlertasComerciales { get; set; }
+
+        [JsonPropertyName("hora_wapeo")]
+        public string? HoraWapeo { get; set; }
     }
 
     public class OcrCencosudResumenResponseDto

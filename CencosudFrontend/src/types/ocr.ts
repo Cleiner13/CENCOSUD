@@ -21,6 +21,8 @@ export interface OcrCencosudCampos {
 
   // (Opcional) texto de alertas comerciales si decides usarlo más adelante
   alertas_comerciales: string | null;
+  
+  hora_wapeo: string | null;
 }
 
 export interface OcrCencosudResponse {

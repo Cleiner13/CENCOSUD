@@ -83,6 +83,7 @@ namespace CencosudBackend.Services
                                 - El campo ""ec_tasa"" viene del valor de la línea ""Tasa"" en la tarjeta ""Efectivo Cencosud"" (ej. ""70.90%"").
                                 - El campo ""ae_pct"" viene del valor de la línea ""Pct"" en la tarjeta ""Avance Efectivo"" (por ejemplo ""O54"").
                                 - El campo ""ae_tasa"" viene del valor de la línea ""Tasa"" en la tarjeta ""Avance Efectivo"" (por ejemplo ""101.86%"").
+                                - El campo ""hora_wapeo"" viene de la hora que aparece en la esquina superior izquierda de la captura (ej. ""4:45"").
                                 - Por ahora todas las demás tarjetas que aparezcan no las tomes en cuenta para nada.
 
                                 REGLAS IMPORTANTES:
@@ -104,7 +105,8 @@ namespace CencosudBackend.Services
                                   ""ec_pct"": string | null,
                                   ""ec_tasa"": string | null,
                                   ""ae_pct"": string | null,
-                                  ""ae_tasa"": string | null
+                                  ""ae_tasa"": string | null,
+                                  ""hora_wapeo"": string | null
                                 }
 
                                 No escribas comentarios ni texto fuera del JSON."

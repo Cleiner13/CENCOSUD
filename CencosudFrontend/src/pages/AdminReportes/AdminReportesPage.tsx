@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import Swal from "sweetalert2";
 import {
@@ -9,14 +9,7 @@ import {
   YAxis,
   Tooltip,
   Legend,
-  PieChart,
-  Pie,
-  Cell,
-  LineChart,
-  Line,
   CartesianGrid,
-  ReferenceLine,
-  Label,
 } from "recharts";
 
 import {
@@ -40,10 +33,6 @@ const COLORS = {
   card: "rgba(255,255,255,0.08)",
 };
 
-function clamp01(v: number) {
-  if (Number.isNaN(v)) return 0;
-  return Math.max(0, Math.min(100, v));
-}
 
 function pctBadgeClass(pct: number) {
   if (pct >= 100) return "badge badge-ok";
@@ -59,44 +48,6 @@ function AdminReportesPage() {
   const [kpis, setKpis] = useState<AdminKpisResponse | null>(null);
   const [serie, setSerie] = useState<SerieDiariaItem[]>([]);
   const [ranking, setRanking] = useState<SupervisorRankingItem[]>([]);
-
-  const totalEstados = useMemo(() => {
-    if (!kpis) return 0;
-    return (kpis.ventas || 0) + (kpis.coordinado || 0) + (kpis.sinOferta || 0);
-  }, [kpis]);
-
-  const pieData = useMemo(() => {
-    if (!kpis) return [];
-    return [
-      { name: "VENTA", value: kpis.ventas || 0, key: "venta" as const },
-      { name: "COORDINADO", value: kpis.coordinado || 0, key: "coordinado" as const },
-      { name: "SIN OFERTA", value: kpis.sinOferta || 0, key: "sinOferta" as const },
-    ];
-  }, [kpis]);
-
-  const totalPie = useMemo(() => pieData.reduce((a, b) => a + (b.value || 0), 0), [pieData]);
-
-  const cumplimientoLine = useMemo(() => {
-    if (!kpis?.metaEquipoVentas || !serie?.length) return [];
-    let accVentas = 0;
-
-    return serie.map((d) => {
-      accVentas += d.venta;
-      const pct = (accVentas / kpis.metaEquipoVentas) * 100;
-      return {
-        fecha: d.fecha,
-        acumulado: accVentas,
-        cumplimientoPct: Number(pct.toFixed(2)),
-      };
-    });
-  }, [kpis, serie]);
-
-  const cumplimientoVentasPct = useMemo(() => {
-    const pct = Number(kpis?.cumplimientoVentasPct ?? 0);
-    return Number.isFinite(pct) ? pct : 0;
-  }, [kpis]);
-
-  const progressWidth = useMemo(() => clamp01(cumplimientoVentasPct), [cumplimientoVentasPct]);
 
   const cargarTodo = async () => {
     try {
@@ -157,16 +108,6 @@ function AdminReportesPage() {
               <input type="month" value={periodo} onChange={(e) => setPeriodo(e.target.value)} />
             </div>
 
-            <div className="admrep-field">
-              <label>Supervisor</label>
-              <input
-                type="text"
-                placeholder="(opcional) ej: ALEXANDER.MAMANI"
-                value={supervisor}
-                onChange={(e) => setSupervisor(e.target.value)}
-              />
-            </div>
-
             <button className="admrep-btn" onClick={cargarTodo} disabled={cargando}>
               {cargando ? "Cargando..." : "Refrescar"}
             </button>
@@ -202,28 +143,6 @@ function AdminReportesPage() {
             <div className="kpi-muted">Sin interés / no aplica</div>
           </div>
 
-          <div className="admrep-kpi admrep-kpi-wide">
-            <div className="kpi-top">
-              <div className="kpi-label">% meta (ventas)</div>
-              <span className={pctBadgeClass(cumplimientoVentasPct)}>
-                {Number(cumplimientoVentasPct ?? 0).toFixed(2)}%
-              </span>
-            </div>
-
-            <div className="kpi-progress">
-              <div className="kpi-progress-bar" style={{ width: `${progressWidth}%` }} />
-            </div>
-
-            <div className="kpi-muted">
-              Meta: <b>{kpis?.metaEquipoVentas ?? 0}</b> · Total gestiones: <b>{totalEstados}</b>
-            </div>
-
-            {!kpis?.metaEquipoVentas && (
-              <div className="kpi-hint">
-                * No hay meta configurada para este periodo (por eso el % queda en 0).
-              </div>
-            )}
-          </div>
         </div>
 
         {/* CHARTS */}
@@ -272,134 +191,6 @@ function AdminReportesPage() {
                 <div className="admrep-help">
                   Consejo: si ves picos, filtra por supervisor para analizar su equipo.
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Pie */}
-          <div className="admrep-card">
-            <div className="admrep-card-head">
-              <h4>Distribución de estados</h4>
-              <span className="admrep-muted">Resumen (mes)</span>
-            </div>
-
-            <div className="admrep-card-body">
-              <div className="admrep-chart">
-                <ResponsiveContainer width="100%" height={300}>
-                  <PieChart>
-                    <Tooltip
-                      contentStyle={{
-                        background: "rgba(15,23,42,0.96)",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                        borderRadius: 12,
-                        color: COLORS.text,
-                      }}
-                    />
-                    <Legend />
-                    <Pie
-                      data={pieData}
-                      dataKey="value"
-                      nameKey="name"
-                      innerRadius={70}
-                      outerRadius={105}
-                      paddingAngle={2}
-                    >
-                      <Label
-                        value={`Total\n${totalPie}`}
-                        position="center"
-                        style={{ fill: COLORS.text, fontWeight: 800, whiteSpace: "pre-line" }}
-                      />
-                      {pieData.map((it, i) => (
-                        <Cell
-                          key={i}
-                          fill={
-                            it.key === "venta"
-                              ? COLORS.venta
-                              : it.key === "coordinado"
-                              ? COLORS.coordinado
-                              : COLORS.sinOferta
-                          }
-                        />
-                      ))}
-                    </Pie>
-                  </PieChart>
-                </ResponsiveContainer>
-
-                <div className="admrep-mini-legend">
-                  <span className="dot dot-venta" /> VENTA
-                  <span className="dot dot-coord" /> COORDINADO
-                  <span className="dot dot-sinof" /> SIN OFERTA
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Line */}
-          <div className="admrep-card admrep-card-full">
-            <div className="admrep-card-head">
-              <h4>Avance vs meta (Ventas)</h4>
-              <span className="admrep-muted">Acumulado + % de cumplimiento</span>
-            </div>
-
-            <div className="admrep-card-body">
-              <div className="admrep-chart">
-                <ResponsiveContainer width="100%" height={320}>
-                  <LineChart data={cumplimientoLine} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
-                    <CartesianGrid stroke={COLORS.grid} strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="fecha"
-                      tick={{ fontSize: 11, fill: COLORS.muted }}
-                      tickFormatter={(v) => dayjs(v).format("DD")}
-                    />
-                    <YAxis
-                      yAxisId="left"
-                      tick={{ fontSize: 11, fill: COLORS.muted }}
-                      allowDecimals={false}
-                      label={{ value: "Acumulado", angle: -90, position: "insideLeft", fill: COLORS.muted }}
-                    />
-                    <YAxis
-                      yAxisId="right"
-                      orientation="right"
-                      domain={[0, "dataMax"]}
-                      tick={{ fontSize: 11, fill: COLORS.muted }}
-                      label={{ value: "%", angle: -90, position: "insideRight", fill: COLORS.muted }}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        background: "rgba(15,23,42,0.96)",
-                        border: "1px solid rgba(255,255,255,0.12)",
-                        borderRadius: 12,
-                        color: COLORS.text,
-                      }}
-                    />
-                    <Legend />
-                    <ReferenceLine yAxisId="right" y={100} stroke="rgba(34,197,94,0.45)" strokeDasharray="6 6" />
-                    <Line
-                      yAxisId="left"
-                      type="monotone"
-                      dataKey="acumulado"
-                      name="Ventas acumuladas"
-                      stroke={COLORS.venta}
-                      strokeWidth={2.5}
-                      dot={false}
-                    />
-                    <Line
-                      yAxisId="right"
-                      type="monotone"
-                      dataKey="cumplimientoPct"
-                      name="% Cumplimiento"
-                      stroke="#60a5fa"
-                      strokeWidth={2}
-                      dot={{ r: 2 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-
-                {!kpis?.metaEquipoVentas && (
-                  <div className="admrep-empty">
-                    Aún no hay meta configurada para este periodo. Configura metas para ver el %.
-                  </div>
-                )}
               </div>
             </div>
           </div>
