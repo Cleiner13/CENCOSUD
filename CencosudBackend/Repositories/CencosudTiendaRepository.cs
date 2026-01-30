@@ -279,11 +279,14 @@ namespace CencosudBackend.Repositories
 
             };
 
-            // Deserializar JSON a diccionario
-            if (dr["JsonInfo"] is string jsonInfo && !string.IsNullOrWhiteSpace(jsonInfo))
+            // deserializa InfoAdicionalJson si existe
+            if (dr["InfoAdicionalJson"] is string json && !string.IsNullOrWhiteSpace(json))
             {
-                dto.InfoAdicional = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonInfo);
+                dto.InfoAdicional =
+                    JsonSerializer.Deserialize<Dictionary<string, string>>(json)
+                    ?? new Dictionary<string, string>();
             }
+
 
             return dto;
         }

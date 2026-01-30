@@ -14,7 +14,10 @@ export interface CencosudClienteRequest {
   uunn?: string | null;
   nomVendedor?: string | null;
 
-  // Campos dinámicos
+  /**
+   * Campos dinámicos clave/valor. Aquí incluirás las nuevas claves como
+   * "Adicionales", "Efectivo Cencosud", "EC Pct", etc. al momento de guardar.
+   */
   infoAdicional?: Record<string, string>;
   tieneImagen: boolean;
 }
@@ -25,8 +28,6 @@ export interface CencosudClienteResponse {
   mensaje: string;
 }
 
-
-// src/types/cencosud.ts
 export interface CencosudClienteDetalle {
   idCliente: number;
   dniCliente: string;
@@ -44,14 +45,26 @@ export interface CencosudClienteDetalle {
   dateEntry?: string | null;
   dateModify?: string | null;
 
-  // Campos dinámicos (de CENCOSUD_TIENDA_CLIENTES_INFORMACION)
+  // Campos fijos existentes en la tabla de información
   avanceEfectivo?: string | null;
   tipoTramite?: string | null;
   oferta?: string | null;
   superavance?: string | null;
   cambioProducto?: string | null;
   incrementoLinea?: string | null;
-  // Nuevo: campos dinámicos
+
+  // Nuevos campos individuales devueltos desde la BD
+  adicionales?: string | null;
+  efectivoCencosud?: string | null;
+  ecPct?: string | null;
+  ecTasa?: string | null;
+  aePct?: string | null;
+  aeTasa?: string | null;
+
+  /**
+   * Diccionario con cualquier campo dinámico adicional. Contendrá los mismos
+   * valores de arriba y otros que puedan añadirse en el futuro si decides
+   * usar InfoAdicional para más claves.
+   */
   infoAdicional?: Record<string, string>;
 }
-

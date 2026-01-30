@@ -1,52 +1,55 @@
-﻿using System.Text.Json.Serialization;
+﻿// DTOs/OcrCencosudResumenCamposDto.cs
+using System.Text.Json.Serialization;
 
 namespace CencosudBackend.DTOs
 {
-    // Campos que realmente te interesan del cuadro RESUMEN
     public class OcrCencosudResumenCamposDto
     {
-        [JsonPropertyName("fecha")]
-        public string? Fecha { get; set; }
-
-        [JsonPropertyName("tipo_doc")]
-        public string? TipoDoc { get; set; }
-
-        [JsonPropertyName("doc")]
-        public string? Doc { get; set; }
+        [JsonPropertyName("dni")]
+        public string? Dni { get; set; }
 
         [JsonPropertyName("nombre")]
         public string? Nombre { get; set; }
 
-        [JsonPropertyName("tipo_de_tramite")]
-        public string? TipoDeTramite { get; set; }
+        [JsonPropertyName("tipo_tramite")]
+        public string? TipoTramite { get; set; }
 
         [JsonPropertyName("oferta")]
         public string? Oferta { get; set; }
 
-        [JsonPropertyName("incremento_de_linea")]
-        public string? IncrementoDeLinea { get; set; }
-
-        [JsonPropertyName("superavance")]
-        public string? Superavance { get; set; }
-
-        [JsonPropertyName("superavance_plus")]
-        public string? SuperavancePlus { get; set; }
-
         [JsonPropertyName("avance_efectivo")]
         public string? AvanceEfectivo { get; set; }
 
-        [JsonPropertyName("cambio_de_producto")]
-        public string? CambioDeProducto { get; set; }
+        [JsonPropertyName("incremento_de_linea")]
+        public string? IncrementoDeLinea { get; set; }
+
+        // campos dinámicos que guardarás en InfoAdicional
+        [JsonPropertyName("adicionales")]
+        public string? Adicionales { get; set; }
+
+        [JsonPropertyName("efectivo_cencosud")]
+        public string? EfectivoCencosud { get; set; }
+
+        [JsonPropertyName("ec_pct")]
+        public string? EcPct { get; set; }
+
+        [JsonPropertyName("ec_tasa")]
+        public string? EcTasa { get; set; }
+
+        [JsonPropertyName("ae_pct")]
+        public string? AePct { get; set; }
+
+        [JsonPropertyName("ae_tasa")]
+        public string? AeTasa { get; set; }
+
+        // si decides usar alertas comerciales en el futuro
+        [JsonPropertyName("alertas_comerciales")]
+        public string? AlertasComerciales { get; set; }
     }
 
-    // Lo que devolverá el endpoint al frontend
     public class OcrCencosudResumenResponseDto
     {
         public OcrCencosudResumenCamposDto Campos { get; set; } = new();
-
-        /// <summary>
-        /// JSON crudo que devolvió el modelo (útil para debug).
-        /// </summary>
         public string? RawJson { get; set; }
     }
 }

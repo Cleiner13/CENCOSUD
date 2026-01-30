@@ -61,12 +61,29 @@ function RegistroCencosudPage() {
         setComentario(detalle.comentario ?? '');
 
         const dinamicos: Record<string, string> = {};
+
+        // campos fijos que ya tenías
         if (detalle.tipoTramite) dinamicos['Tipo de Trámite'] = detalle.tipoTramite;
         if (detalle.oferta) dinamicos['Oferta'] = detalle.oferta;
         if (detalle.incrementoLinea) dinamicos['Incremento de Línea'] = detalle.incrementoLinea;
         if (detalle.avanceEfectivo) dinamicos['Avance Efectivo'] = detalle.avanceEfectivo;
         if (detalle.superavance) dinamicos['Superavance'] = detalle.superavance;
         if (detalle.cambioProducto) dinamicos['Cambio de Producto'] = detalle.cambioProducto;
+
+        // nuevos campos que definimos en CencosudClienteDetalle
+        if (detalle.adicionales) dinamicos['Adicionales'] = detalle.adicionales;
+        if (detalle.efectivoCencosud) dinamicos['Efectivo Cencosud'] = detalle.efectivoCencosud;
+        if (detalle.ecPct) dinamicos['EC Pct'] = detalle.ecPct;
+        if (detalle.ecTasa) dinamicos['EC Tasa'] = detalle.ecTasa;
+        if (detalle.aePct) dinamicos['AE Pct'] = detalle.aePct;
+        if (detalle.aeTasa) dinamicos['AE Tasa'] = detalle.aeTasa;
+        
+        if (detalle.infoAdicional) {
+          Object.entries(detalle.infoAdicional).forEach(([clave, valor]) => {
+            // solo escribe si el valor está definido
+            if (valor) dinamicos[clave] = valor;
+          });
+        }
 
         setDynamicFields(dinamicos);
 
@@ -101,17 +118,21 @@ function RegistroCencosudPage() {
 
       const campos = await leerImagenCencosudIA(file);
 
-      if (campos.doc) setDni(campos.doc);
+      if (campos.dni) setDni(campos.dni);
       if (campos.nombre) setNombre(campos.nombre);
 
       const dinamicos: Record<string, string> = {};
-      if (campos.tipo_de_tramite) dinamicos['Tipo de Trámite'] = campos.tipo_de_tramite;
+      if (campos.tipo_tramite) dinamicos['Tipo de Trámite'] = campos.tipo_tramite;
       if (campos.oferta) dinamicos['Oferta'] = campos.oferta;
       if (campos.incremento_de_linea) dinamicos['Incremento de Línea'] = campos.incremento_de_linea;
       if (campos.avance_efectivo) dinamicos['Avance Efectivo'] = campos.avance_efectivo;
-      if (campos.superavance) dinamicos['Superavance'] = campos.superavance;
-      if (campos.cambio_de_producto) dinamicos['Cambio de Producto'] = campos.cambio_de_producto;
-
+      // nuevos:
+      if (campos.adicionales) dinamicos['Adicionales'] = campos.adicionales;
+      if (campos.efectivo_cencosud) dinamicos['Efectivo Cencosud'] = campos.efectivo_cencosud;
+      if (campos.ec_pct) dinamicos['EC Pct'] = campos.ec_pct;
+      if (campos.ec_tasa) dinamicos['EC Tasa'] = campos.ec_tasa;
+      if (campos.ae_pct) dinamicos['AE Pct'] = campos.ae_pct;
+      if (campos.ae_tasa) dinamicos['AE Tasa'] = campos.ae_tasa;
       setDynamicFields(dinamicos);
     } catch (err) {
       console.error(err);

@@ -1,19 +1,29 @@
 // src/types/ocr.ts
+
 export interface OcrCencosudCampos {
-  fecha: string | null;
-  tipo_doc: string | null;
-  doc: string | null;
+  // Datos extraídos de la cabecera
+  dni: string | null;
   nombre: string | null;
-  tipo_de_tramite: string | null;
+  tipo_tramite: string | null;
   oferta: string | null;
-  incremento_de_linea: string | null;
-  superavance: string | null;
-  superavance_plus: string | null;
+
+  // Montos principales
   avance_efectivo: string | null;
-  cambio_de_producto: string | null;
+  incremento_de_linea: string | null;
+
+  // Campos dinámicos del nuevo formato
+  adicionales: string | null;
+  efectivo_cencosud: string | null;
+  ec_pct: string | null;
+  ec_tasa: string | null;
+  ae_pct: string | null;
+  ae_tasa: string | null;
+
+  // (Opcional) texto de alertas comerciales si decides usarlo más adelante
+  alertas_comerciales: string | null;
 }
 
 export interface OcrCencosudResponse {
   campos: OcrCencosudCampos;
-  rawJson: string; // o TextoCrudo / RawJson según tu DTO
+  rawJson: string; // JSON crudo devuelto por el modelo, útil para depuración
 }
