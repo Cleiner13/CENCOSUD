@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using CencosudBackend.DTOs;
+using CencosudBackend.DTOs.AdminReportes;
+using CencosudBackend.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CencosudBackend.DTOs;
-using CencosudBackend.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CencosudBackend.DTOs.AdminReportes;
 
 namespace CencosudBackend.Controllers
 {
@@ -82,6 +84,34 @@ namespace CencosudBackend.Controllers
             {
                 return StatusCode(500, new { mensaje = ex.Message });
             }
+        }
+
+        // =========================
+        // NUEVOS ENDPOINTS
+        // =========================
+
+        [HttpPost("tramites-mes")]
+        public async Task<IActionResult> PostTramitesMes([FromBody] AdminTramitesMesRequestDto req)
+        {
+            try
+            {
+                var data = await _service.ObtenerTramitesMesAsync(User, req);
+                return Ok(data);
+            }
+            catch (UnauthorizedAccessException ex) { return Unauthorized(new { message = ex.Message }); }
+            catch (Exception ex) { return BadRequest(new { message = ex.Message }); }
+        }
+
+        [HttpPost("hora-wapeo-por-dia")]
+        public async Task<IActionResult> PostHoraWapeoPorDia([FromBody] AdminHoraWapeoPorDiaRequestDto req)
+        {
+            try
+            {
+                var data = await _service.ObtenerHoraWapeoPorDiaAsync(User, req);
+                return Ok(data);
+            }
+            catch (UnauthorizedAccessException ex) { return Unauthorized(new { message = ex.Message }); }
+            catch (Exception ex) { return BadRequest(new { message = ex.Message }); }
         }
     }
 }

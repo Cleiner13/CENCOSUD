@@ -42,7 +42,7 @@ function pctBadgeClass(pct: number) {
 
 function AdminReportesPage() {
   const [periodo, setPeriodo] = useState<string>(dayjs().format("YYYY-MM"));
-  const [supervisor, setSupervisor] = useState<string>("");
+  const [supervisor] = useState<string>("");
   const [cargando, setCargando] = useState(false);
 
   const [kpis, setKpis] = useState<AdminKpisResponse | null>(null);
@@ -117,32 +117,64 @@ function AdminReportesPage() {
         {/* KPIs */}
         <div className="admrep-kpis">
           <div className="admrep-kpi kpi-venta">
-            <div className="kpi-top">
-              <div className="kpi-label">VENTAS</div>
-              <span className="pill pill-venta">✓</span>
-            </div>
             <div className="kpi-value">{kpis?.ventas ?? 0}</div>
-            <div className="kpi-muted">Cierres del periodo</div>
+            <div className="kpi-muted">Ventas</div>
           </div>
 
           <div className="admrep-kpi kpi-coord">
-            <div className="kpi-top">
-              <div className="kpi-label">COORDINADO</div>
-              <span className="pill pill-coord">⏱</span>
-            </div>
             <div className="kpi-value">{kpis?.coordinado ?? 0}</div>
-            <div className="kpi-muted">En coordinación</div>
+            <div className="kpi-muted">Coordinación</div>
           </div>
 
           <div className="admrep-kpi kpi-sinof">
-            <div className="kpi-top">
-              <div className="kpi-label">SIN OFERTA</div>
-              <span className="pill pill-sinof">✕</span>
-            </div>
             <div className="kpi-value">{kpis?.sinOferta ?? 0}</div>
-            <div className="kpi-muted">Sin interés / no aplica</div>
+            <div className="kpi-muted">Sin oferta</div>
           </div>
 
+        </div>
+        
+        {/* Ranking */}
+        <div className="admrep-card">
+          <div className="admrep-card-head">
+            <h4>Ranking por supervisor</h4>
+            <span className="admrep-muted">Ventas vs meta (mes)</span>
+          </div>
+
+          <div className="admrep-card-body">
+            {ranking.length === 0 ? (
+              <div className="admrep-empty">No hay data para mostrar.</div>
+            ) : (
+              <div className="admrep-table-wrap">
+                <table className="admrep-table">
+                  <thead>
+                    <tr>
+                      <th>Supervisor</th>
+                      <th>Asesores</th>
+                      <th>Ventas</th>
+                      <th>Meta</th>
+                      <th>% Cumpl.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {ranking.map((r) => {
+                      const pct = Number(r.cumplimientoPct ?? 0);
+                      return (
+                        <tr key={r.supervisor}>
+                          <td className="td-strong">{r.supervisor}</td>
+                          <td>{r.asesores}</td>
+                          <td>{r.ventas}</td>
+                          <td>{r.metaVentas}</td>
+                          <td>
+                            <span className={pctBadgeClass(pct)}>{pct.toFixed(2)}%</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* CHARTS */}
@@ -196,49 +228,7 @@ function AdminReportesPage() {
           </div>
         </div>
 
-        {/* Ranking */}
-        <div className="admrep-card">
-          <div className="admrep-card-head">
-            <h4>Ranking por supervisor</h4>
-            <span className="admrep-muted">Ventas vs meta (mes)</span>
-          </div>
-
-          <div className="admrep-card-body">
-            {ranking.length === 0 ? (
-              <div className="admrep-empty">No hay data para mostrar.</div>
-            ) : (
-              <div className="admrep-table-wrap">
-                <table className="admrep-table">
-                  <thead>
-                    <tr>
-                      <th>Supervisor</th>
-                      <th>Asesores</th>
-                      <th>Ventas</th>
-                      <th>Meta</th>
-                      <th>% Cumpl.</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {ranking.map((r) => {
-                      const pct = Number(r.cumplimientoPct ?? 0);
-                      return (
-                        <tr key={r.supervisor}>
-                          <td className="td-strong">{r.supervisor}</td>
-                          <td>{r.asesores}</td>
-                          <td>{r.ventas}</td>
-                          <td>{r.metaVentas}</td>
-                          <td>
-                            <span className={pctBadgeClass(pct)}>{pct.toFixed(2)}%</span>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        </div>
+        
 
       </div>
     </div>

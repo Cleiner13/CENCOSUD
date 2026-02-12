@@ -24,7 +24,7 @@ namespace CencosudBackend.Services
             var key = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key not found");
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
-            var expiresMinutes = int.Parse(jwtSection["ExpiresMinutes"] ?? "30");
+            var expiresHours = int.Parse(jwtSection["ExpiresHours"] ?? "3");
 
             var claims = new List<Claim>
             {
@@ -44,7 +44,7 @@ namespace CencosudBackend.Services
                 issuer: issuer,
                 audience: audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(expiresMinutes),
+                expires: DateTime.UtcNow.AddMinutes(expiresHours * 60),
                 signingCredentials: creds
             );
 

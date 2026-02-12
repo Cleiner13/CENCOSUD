@@ -78,7 +78,7 @@
 /* KPI */
 .admrep-kpis{
   display:grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-bottom: 12px;
 }
@@ -175,7 +175,6 @@
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 12px;
 }
 
 .admrep-card{
@@ -184,6 +183,7 @@
   border-radius: 18px;
   overflow:hidden;
   box-shadow: 0 14px 30px rgba(0,0,0,0.22);
+  margin-bottom: 12px;
 }
 
 .admrep-card-full{ grid-column: 1 / -1; }
@@ -210,6 +210,7 @@
 
 .admrep-card-body{
   padding: 12px 14px;
+  padding-bottom: 15px;
 }
 
 .admrep-help{
@@ -301,7 +302,7 @@
 /* responsive */
 @media (max-width: 720px){
   .admrep-header{ flex-direction: column; }
-  .admrep-kpis{ grid-template-columns: repeat(2, 1fr); }
+  .admrep-kpis{ grid-template-columns: repeat(3, 1fr); }
   .admrep-grid{ grid-template-columns: 1fr; }
   .admrep-card-full{ grid-column: auto; }
 }

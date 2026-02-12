@@ -53,6 +53,7 @@ builder.Services.AddScoped<CencosudBackend.Repositories.IAdminReportesRepository
 builder.Services.AddScoped<CencosudBackend.Services.IAdminReportesService, CencosudBackend.Services.AdminReportesService>();
 
 
+
 // JWT Auth
 var jwtSection = builder.Configuration.GetSection("Jwt");
 var key = jwtSection["Key"] ?? throw new InvalidOperationException("Jwt:Key not found");
