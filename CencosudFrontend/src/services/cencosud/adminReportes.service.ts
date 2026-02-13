@@ -46,7 +46,7 @@ export interface TramitesMesRow {
 export interface HoraWapeoRequest {
   fechaIni: string;
   fechaFin: string;
-  supervisor: string;
+  supervisor?: string | null; // <-- permitir null
   asesor?: string | null;
   uunn?: string | null;
 }
@@ -88,6 +88,7 @@ export async function obtenerTramitesMes(req: TramitesMesRequest): Promise<Trami
 }
 
 export async function obtenerHoraWapeoPorDia(req: HoraWapeoRequest): Promise<HoraWapeoRow[]> {
+  console.log("REQ hora-wapeo-por-dia =>", req);
   const resp = await apiClient.post('/CencosudAdminReportes/hora-wapeo-por-dia', req);
   return resp.data;
 }

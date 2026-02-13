@@ -10,15 +10,22 @@ import {
   Tooltip,
   Legend,
   CartesianGrid,
+  PieChart,  // <-- nuevo
+  Pie,       // <-- nuevo
+  Cell       // <-- nuevo
 } from "recharts";
 
 import {
   obtenerAdminKpis,
   obtenerSerieDiaria,
   obtenerRankingSupervisores,
+  obtenerTramitesMes,
+  obtenerHoraWapeoPorDia,
   type AdminKpisResponse,
   type SerieDiariaItem,
   type SupervisorRankingItem,
+  type TramitesMesRow,
+  type HoraWapeoRow
 } from "../../services/cencosud/adminReportes.service";
 
 import "./AdminReportesPage.css";
@@ -32,6 +39,10 @@ const COLORS = {
   muted: "rgba(255,255,255,0.70)",
   card: "rgba(255,255,255,0.08)",
 };
+
+const COLOR_PALETTE = ["#4ade80", "#60a5fa", "#f87171"]; // colores para Preevaluados, Regular y Otros
+const HORA_COLUMNS = ["08","09","10","11","12","13","14","15","16","17","18","19","20","21","22"];
+
 
 
 function pctBadgeClass(pct: number) {
@@ -56,45 +67,78 @@ function AdminReportesPage() {
   const [asesorFiltro, setAsesorFiltro] = useState<string | null>(null);
 
   const cargarTodo = async () => {
-    try {
-      setCargando(true);
+  try {
+    setCargando(true);
 
-      const [k, s, r] = await Promise.all([
-        obtenerAdminKpis(periodo),
-        obtenerSerieDiaria(periodo, supervisor || undefined),
-        obtenerRankingSupervisores(periodo),
-      ]);
+    // determina rango de fechas
+    const startDate = dayjs(periodo).startOf("month").format("YYYY-MM-DD");
+    const endDate = dayjs(periodo).endOf("month").format("YYYY-MM-DD");
 
-      setKpis(k);
-      setSerie(s || []);
-      setRanking(r || []);
-    } catch (err: any) {
-      console.error(err);
+    const results = await Promise.allSettled([
+      obtenerAdminKpis(periodo),
+      obtenerSerieDiaria(periodo, supervisor || undefined),
+      obtenerRankingSupervisores(periodo),
+      obtenerTramitesMes({
+        fechaIni: startDate,
+        fechaFin: endDate,
+        filtroTipo,
+        uunn: null
+      }),
+      obtenerHoraWapeoPorDia({
+        fechaIni: startDate,
+        fechaFin: endDate,
+        supervisor: supervisorFiltro?.trim() ? supervisorFiltro.trim() : null,
+        asesor: asesorFiltro?.trim() ? asesorFiltro.trim() : null,
+        uunn: null
+      })
+    ]);
 
-      const msg =
-        err?.response?.data?.mensaje ||
-        err?.response?.data?.Mensaje ||
-        "No se pudo cargar el reporte admin (revisa endpoints backend).";
+    const k  = results[0].status === "fulfilled" ? results[0].value : null;
+    const s  = results[1].status === "fulfilled" ? results[1].value : [];
+    const r  = results[2].status === "fulfilled" ? results[2].value : [];
+    const t  = results[3].status === "fulfilled" ? results[3].value : [];
+    const hw = results[4].status === "fulfilled" ? results[4].value : [];
 
-      await Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: msg,
-        confirmButtonColor: "#d33",
-      });
-
-      setKpis(null);
-      setSerie([]);
-      setRanking([]);
-    } finally {
-      setCargando(false);
+    setKpis(k);
+    setSerie(s || []);
+    setRanking(r || []);
+    setTramites(t || []);
+    setHoraWapeo(hw || []);
+    
+    // si quieres, muestra warning SOLO si falla el de hora wapeo
+    if (results[4].status === "rejected") {
+      console.error("hora-wapeo-por-dia falló:", results[4].reason);
     }
-  };
+
+  } catch (err: any) {
+    console.error(err);
+    const msg =
+      err?.response?.data?.mensaje ||
+      err?.response?.data?.Mensaje ||
+      "No se pudo cargar el reporte admin (revisa endpoints backend).";
+
+    await Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: msg,
+      confirmButtonColor: "#d33"
+    });
+
+    setKpis(null);
+    setSerie([]);
+    setRanking([]);
+    setTramites([]);
+    setHoraWapeo([]);
+  } finally {
+    setCargando(false);
+  }
+};
+
 
   useEffect(() => {
     cargarTodo();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [periodo, supervisor]);
+  }, [periodo, supervisor, filtroTipo, supervisorFiltro, asesorFiltro]);
 
   return (
     <div className="admrep-page">
@@ -241,37 +285,47 @@ function AdminReportesPage() {
             </div>
           </div>
 
-          <div className="admrep-card">
+          {/* Tarjeta: Wapeos por hora */}
+          <div className="admrep-card admrep-card-full">
             <div className="admrep-card-head">
-              <h4>Distribución de Trámites</h4>
+              <h4>Wapeos por hora</h4>
               <span className="admrep-muted">Periodo: {periodo}</span>
             </div>
             <div className="admrep-card-body">
-              {/* Example with PieChart */}
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    dataKey="cantidad"
-                    data={tramites}
-                    nameKey="tipoTramite"
-                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
-                  >
-                    {/* Define colors como prefieras */}
-                    {tramites.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLOR_PALETTE[index % COLOR_PALETTE.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip formatter={(value: number) => value.toLocaleString()} />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+              {horaWapeo.length === 0 ? (
+                <div className="admrep-empty">No hay data para mostrar.</div>
+              ) : (
+                <div className="admrep-table-wrap">
+                  <table className="admrep-table">
+                    <thead>
+                      <tr>
+                        <th>Supervisor</th>
+                        <th>Promotor</th>
+                        <th>Total</th>
+                        {HORA_COLUMNS.map((h) => (
+                          <th key={h}>{h}:00</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {horaWapeo.map((row) => (
+                        <tr key={`${row.supervisor}-${row.promotor}`}>
+                          <td className="td-strong">{row.supervisor}</td>
+                          <td>{row.promotor}</td>
+                          <td>{row.nroTc}</td>
+                          {HORA_COLUMNS.map((h) => (
+                            <td key={h}>{row.horas[h] ?? 0}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
 
         </div>
-        
-
-        
 
       </div>
     </div>
