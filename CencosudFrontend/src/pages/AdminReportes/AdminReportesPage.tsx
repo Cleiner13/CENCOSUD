@@ -49,6 +49,12 @@ function AdminReportesPage() {
   const [serie, setSerie] = useState<SerieDiariaItem[]>([]);
   const [ranking, setRanking] = useState<SupervisorRankingItem[]>([]);
 
+  const [tramites, setTramites] = useState<TramitesMesRow[]>([]);
+  const [horaWapeo, setHoraWapeo] = useState<HoraWapeoRow[]>([]);
+  const [filtroTipo, setFiltroTipo] = useState<'TODO' | 'VENTAS'>('TODO');
+  const [supervisorFiltro, setSupervisorFiltro] = useState<string>(''); // vacío = todos
+  const [asesorFiltro, setAsesorFiltro] = useState<string | null>(null);
+
   const cargarTodo = async () => {
     try {
       setCargando(true);
@@ -104,9 +110,17 @@ function AdminReportesPage() {
 
           <div className="admrep-filters">
             <div className="admrep-field">
-              <label>Mes</label>
-              <input type="month" value={periodo} onChange={(e) => setPeriodo(e.target.value)} />
+              <label>Filtro:</label>
+              <select value={filtroTipo} onChange={(e) => setFiltroTipo(e.target.value as 'TODO' | 'VENTAS')}>
+                <option value="TODO">Todos</option>
+                <option value="VENTAS">Solo ventas</option>
+              </select>
             </div>
+            <div className="admrep-field">
+              <label>Supervisor:</label>
+              <input type="text" value={supervisorFiltro} onChange={(e) => setSupervisorFiltro(e.target.value)} placeholder="Todos" />
+            </div>
+            {/* adicionalmente un select para asesor si lo requieres */}
 
             <button className="admrep-btn" onClick={cargarTodo} disabled={cargando}>
               {cargando ? "Cargando..." : "Refrescar"}
@@ -132,7 +146,7 @@ function AdminReportesPage() {
           </div>
 
         </div>
-        
+
         {/* Ranking */}
         <div className="admrep-card">
           <div className="admrep-card-head">
@@ -226,7 +240,36 @@ function AdminReportesPage() {
               </div>
             </div>
           </div>
+
+          <div className="admrep-card">
+            <div className="admrep-card-head">
+              <h4>Distribución de Trámites</h4>
+              <span className="admrep-muted">Periodo: {periodo}</span>
+            </div>
+            <div className="admrep-card-body">
+              {/* Example with PieChart */}
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    dataKey="cantidad"
+                    data={tramites}
+                    nameKey="tipoTramite"
+                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(1)}%`}
+                  >
+                    {/* Define colors como prefieras */}
+                    {tramites.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLOR_PALETTE[index % COLOR_PALETTE.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip formatter={(value: number) => value.toLocaleString()} />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
         </div>
+        
 
         
 

@@ -30,6 +30,34 @@ export interface SupervisorRankingItem {
   asesores: number;
 }
 
+export interface TramitesMesRequest {
+  fechaIni: string;    // ISO string 'YYYY-MM-DD'
+  fechaFin: string;
+  filtroTipo: 'TODO' | 'VENTAS';
+  uunn?: string | null;
+}
+
+export interface TramitesMesRow {
+  tipoTramite: string;  // 'Preevaluados', 'Regular' u 'Otros'
+  cantidad: number;
+  porcentaje: number;
+}
+
+export interface HoraWapeoRequest {
+  fechaIni: string;
+  fechaFin: string;
+  supervisor: string;
+  asesor?: string | null;
+  uunn?: string | null;
+}
+
+export interface HoraWapeoRow {
+  supervisor: string;
+  promotor: string;
+  nroTc: number;
+  horas: Record<string, number>; // Ej: { "08": 0, "09": 2, ... }
+}
+
 export async function obtenerAdminKpis(periodo: string) {
   const { data } = await apiClient.get<AdminKpisResponse>(
     "/CencosudAdminReportes/kpis",
@@ -52,4 +80,14 @@ export async function obtenerRankingSupervisores(periodo: string) {
     { params: { periodo } }
   );
   return data;
+}
+
+export async function obtenerTramitesMes(req: TramitesMesRequest): Promise<TramitesMesRow[]> {
+  const resp = await apiClient.post('/CencosudAdminReportes/tramites-mes', req);
+  return resp.data;
+}
+
+export async function obtenerHoraWapeoPorDia(req: HoraWapeoRequest): Promise<HoraWapeoRow[]> {
+  const resp = await apiClient.post('/CencosudAdminReportes/hora-wapeo-por-dia', req);
+  return resp.data;
 }

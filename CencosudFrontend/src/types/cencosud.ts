@@ -68,3 +68,17 @@ export interface CencosudClienteDetalle {
    */
   infoAdicional?: Record<string, string>;
 }
+
+// src/types/cencosud.ts
+export interface TramitesMesRow {
+  tipoTramite: string;
+  cantidad: number;
+  porcentaje: number;
+}
+
+export interface HoraWapeoRow {
+  supervisor: string;
+  promotor: string;
+  nroTc: number;
+  horas: Record<string, number>;
+}

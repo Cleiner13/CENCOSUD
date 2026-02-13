@@ -306,3 +306,10 @@
   .admrep-grid{ grid-template-columns: 1fr; }
   .admrep-card-full{ grid-column: auto; }
 }
+
+
+.admrep-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 12px;
+}
